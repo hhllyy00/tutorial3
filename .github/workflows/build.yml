@@ -1,0 +1,29 @@
+    name: Java CI with Maven
+    
+    # 触发条件：每次推送到main分支，或者往main分支提PR，就自动运行
+    on:
+      push:
+        branches: [ main ]
+      pull_request:
+        branches: [ main ]
+    
+    # 工作流任务
+    jobs:
+      build:
+        runs-on: ubuntu-latest  # 在最新的Ubuntu服务器上运行
+    
+        steps:
+          # 第一步：拉取你的代码
+          - uses: actions/checkout@v4
+    
+          # 第二步：配置JDK17（和你本地版本一致）
+          - name: Set up JDK 17
+            uses: actions/setup-java@v4
+            with:
+              java-version: '17'
+              distribution: 'temurin'
+              cache: maven
+    
+          # 第三步：运行Maven构建+测试（对应作业要求的"Run Maven build"）
+          - name: Run Maven build
+            run: mvn clean test
